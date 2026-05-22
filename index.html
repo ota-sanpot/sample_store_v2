@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth scroll-pt-20">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>魚魚呑 — 蒲田駅2分、海と呑む。｜ 蒲田・海鮮居酒屋</title>
+  <meta name="description" content="蒲田駅徒歩2分。豊洲直送の刺身と、全国の純米酒。サク呑みから二次会まで、夜更けに寄り添う海鮮居酒屋。">
+
+  <!-- Fonts: 別ファミリーで v1 と差別化（Fraunces / Zen Antique / Zen Kaku Gothic New） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Zen+Antique&family=Zen+Antique+Soft&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink:     '#0F2433',  // 深い海の藍
+            navy:    '#1B3447',  // 藍鉄
+            paper:   '#F8F1E4',  // 生成りの紙
+            cream:   '#F2E7D2',  // 暖かいクリーム
+            shio:    '#FFFCF5',  // 塩白
+            coral:   '#D9533F',  // 鮭の赤
+            salmon:  '#E88471',  // 薄サーモン
+            aqua:    '#3A7A8C',  // 深い海色
+            wave:    '#7FB3C2',  // 波の色
+            sun:     '#C9974C',  // 燻し金
+            sun2:    '#E0B273',  // 明るい燻し金
+            sub:     '#5C6B74',  // グレーブルー
+            line:    '#D9CCB2',  // 罫線
+          },
+          fontFamily: {
+            jp:      ['"Zen Kaku Gothic New"', '"Noto Sans JP"', 'sans-serif'],
+            ja_disp: ['"Zen Antique"', '"Zen Antique Soft"', 'serif'],
+            mincho:  ['"Yuji Syuku"', '"Zen Antique"', 'serif'],
+            display: ['"Fraunces"', 'serif'],
+          },
+          letterSpacing: {
+            wider3: '.18em',
+            jumbo:  '.32em',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    html, body { background: #F8F1E4; color: #0F2433; }
+    body { font-family: '"Zen Kaku Gothic New"', '"Noto Sans JP"', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* スクロールリビール */
+    .reveal { opacity: 0; transform: translateY(28px); transition: all 1.0s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 120ms; }
+    .reveal-delay-2 { transition-delay: 240ms; }
+    .reveal-delay-3 { transition-delay: 360ms; }
+
+    /* ヒーロー写真の被せ */
+    .hero-veil {
+      background:
+        linear-gradient(180deg, rgba(15,36,51,0.25) 0%, rgba(15,36,51,0.05) 40%, rgba(15,36,51,0.55) 100%),
+        linear-gradient(90deg, rgba(15,36,51,0.35) 0%, transparent 45%);
+    }
+
+    /* ノイズ・テクスチャ（紙の粒子感） */
+    .grain { position: relative; }
+    .grain::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    /* ヘアライン */
+    .hair { height: 1px; background: linear-gradient(90deg, transparent, #C9974C 18%, #C9974C 82%, transparent); }
+    .hair-soft { height: 1px; background: linear-gradient(90deg, transparent, #D9CCB2 18%, #D9CCB2 82%, transparent); }
+
+    /* メニュー写真ホバー */
+    .dish-img { transition: transform 1.4s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease; }
+    .dish-card:hover .dish-img { transform: scale(1.06); filter: saturate(1.08); }
+
+    /* ナビホバーアンダーライン */
+    .nav-a { position: relative; }
+    .nav-a::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: #D9533F; transition: width .5s ease; }
+    .nav-a:hover::after { width: 100%; }
+
+    /* スクロールサイン */
+    @keyframes drip {
+      0% { transform: translateY(-100%); opacity: 0; }
+      40% { opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    .scroll-line::after {
+      content: ''; position: absolute; top: 0; left: 50%;
+      width: 1px; height: 60%; background: #E0B273; animation: drip 2.6s cubic-bezier(0.77,0,0.175,1) infinite;
+    }
+
+    /* 価格タグ：横の小さなドットを持つ価格レイアウト */
+    .price-row { display: flex; align-items: baseline; gap: 8px; }
+    .price-row .dots { flex: 1; border-bottom: 1px dotted #C9974C; transform: translateY(-3px); opacity: 0.55; }
+
+    /* 大きな見出しの英文 */
+    .h-en { font-family: 'Fraunces', serif; font-weight: 300; font-style: italic; letter-spacing: 0; }
+
+    /* 大きな漢字背景（透かし） */
+    .kanji-bg {
+      font-family: 'Yuji Syuku', 'Zen Antique', serif;
+      color: rgba(15,36,51,0.05);
+      line-height: 0.9; user-select: none; pointer-events: none;
+    }
+
+    /* 縦書きラベル */
+    .v-rl { writing-mode: vertical-rl; text-orientation: upright; }
+
+    /* 青海波 */
+    .pattern-wave {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='80' height='40'%3E%3Cg fill='none' stroke='%233A7A8C' stroke-width='0.6' opacity='0.18'%3E%3Cpath d='M0,40 A20,20 0 0,1 40,40 A20,20 0 0,1 80,40'/%3E%3Cpath d='M7,40 A13,13 0 0,1 33,40'/%3E%3Cpath d='M47,40 A13,13 0 0,1 73,40'/%3E%3Cpath d='M14,40 A6,6 0 0,1 26,40'/%3E%3Cpath d='M54,40 A6,6 0 0,1 66,40'/%3E%3Cpath d='M-20,20 A20,20 0 0,1 20,20'/%3E%3Cpath d='M20,20 A20,20 0 0,1 60,20'/%3E%3Cpath d='M60,20 A20,20 0 0,1 100,20'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 80px 40px;
+    }
+
+    /* 麻の葉風（簡易ライン） */
+    .pattern-asanoha {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' width='40' height='40'%3E%3Cg fill='none' stroke='%23C9974C' stroke-width='0.4' opacity='0.14'%3E%3Cpath d='M20,2 L38,12 L38,28 L20,38 L2,28 L2,12 Z'/%3E%3Cpath d='M20,2 L20,38 M2,12 L38,28 M2,28 L38,12'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 40px 40px;
+    }
+
+    /* ぼかしのある光 */
+    .glow-coral {
+      background: radial-gradient(ellipse 50% 40% at 80% 20%, rgba(217,83,63,0.20), transparent 65%),
+                  radial-gradient(ellipse 50% 50% at 10% 90%, rgba(201,151,76,0.15), transparent 70%);
+    }
+
+    /* 角丸 + シャドウ控えめ */
+    .shadow-paper { box-shadow: 0 1px 0 rgba(15,36,51,0.04), 0 14px 30px -18px rgba(15,36,51,0.18); }
+
+    /* スタンプ風円 */
+    .stamp {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 88px; height: 88px; border-radius: 9999px;
+      background: #D9533F; color: #FFFCF5;
+      font-family: 'Yuji Syuku', serif;
+      transform: rotate(-8deg);
+      box-shadow: 0 6px 18px -6px rgba(217,83,63,0.55);
+    }
+
+    /* リッチなボタン */
+    .btn-ink {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 14px 28px; background: #0F2433; color: #F8F1E4;
+      letter-spacing: .14em; font-size: 13px;
+      border: 1px solid #0F2433; transition: all .4s ease;
+      position: relative; overflow: hidden;
+    }
+    .btn-ink::before {
+      content: ''; position: absolute; inset: 0; background: #D9533F;
+      transform: translateX(-100%); transition: transform .45s ease;
+    }
+    .btn-ink span { position: relative; z-index: 2; }
+    .btn-ink:hover::before { transform: translateX(0); }
+    .btn-ink:hover { border-color: #D9533F; }
+
+    .btn-line {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 13px 26px; background: transparent; color: #0F2433;
+      letter-spacing: .14em; font-size: 13px;
+      border: 1px solid #0F2433; transition: all .35s ease;
+    }
+    .btn-line:hover { background: #0F2433; color: #F8F1E4; }
+
+    /* マーキー風（ゆっくり横スクロール） */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-track { display: inline-flex; gap: 64px; white-space: nowrap; animation: marquee 38s linear infinite; }
+
+    /* モバイルCTA */
+    @media (min-width: 768px) { .mobile-cta { display: none; } }
+
+    /* ヘッダー透過 → スクロールで不透明 */
+    .nav-stick { transition: background-color .35s ease, border-color .35s ease, color .35s ease; }
+    .nav-stick.scrolled { background: rgba(248,241,228,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid #D9CCB2; }
+    .nav-stick.scrolled .nav-link, .nav-stick.scrolled .nav-logo { color: #0F2433; }
+    .nav-stick.scrolled .nav-mark { color: #D9533F; }
+
+    /* セクション番号 */
+    .sec-num {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-weight: 300; color: #D9533F; font-size: 14px; letter-spacing: .18em;
+    }
+
+    /* 区切りの魚アイコン代替 */
+    .fish-divider {
+      display: inline-flex; align-items: center; gap: 14px; color: #C9974C;
+    }
+    .fish-divider .line { width: 60px; height: 1px; background: #C9974C; }
+
+    /* スライド入り */
+    @keyframes slideRight {
+      from { transform: translateX(-30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ヒーローのカウンター数字 */
+    .stat-num { font-family: 'Fraunces', serif; font-weight: 300; font-size: 56px; line-height: 1; color: #D9533F; font-feature-settings: 'lnum'; }
+
+    /* 印鑑風アクセント */
+    .seal { display: inline-block; padding: 4px 10px; background: #D9533F; color: #FFFCF5; font-family: 'Yuji Syuku', serif; letter-spacing: .2em; }
+  </style>
+</head>
+
+<body class="font-jp">
+
+  <!-- ============================== ANNOUNCEMENT BAR ============================== -->
+  <div class="bg-ink text-paper text-[11px] tracking-wider3 py-2 overflow-hidden">
+    <div class="marquee-track">
+      <span><i class="fa-solid fa-fish text-coral mr-2"></i>本日19:00以降 残席わずか・カウンター3席</span>
+      <span><i class="fa-regular fa-star text-sun2 mr-2"></i>本日の市場直送 ―― 真鯛・カンパチ・縞鯵</span>
+      <span><i class="fa-solid fa-wine-glass text-sun2 mr-2"></i>本日の純米酒 ―― 而今・新政・田酒・あべ</span>
+      <span><i class="fa-solid fa-clock text-coral mr-2"></i>20時以降のサク呑み歓迎。〆の刺身と一献を。</span>
+      <span><i class="fa-solid fa-fish text-coral mr-2"></i>本日19:00以降 残席わずか・カウンター3席</span>
+      <span><i class="fa-regular fa-star text-sun2 mr-2"></i>本日の市場直送 ―― 真鯛・カンパチ・縞鯵</span>
+      <span><i class="fa-solid fa-wine-glass text-sun2 mr-2"></i>本日の純米酒 ―― 而今・新政・田酒・あべ</span>
+      <span><i class="fa-solid fa-clock text-coral mr-2"></i>20時以降のサク呑み歓迎。〆の刺身と一献を。</span>
+    </div>
+  </div>
+
+  <!-- ============================== NAV ============================== -->
+  <nav id="nav" class="nav-stick fixed top-7 left-0 right-0 z-50 text-shio">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
+      <a href="#top" class="nav-logo flex items-center gap-3">
+        <span class="nav-mark text-coral font-mincho text-3xl leading-none">魚魚呑</span>
+        <span class="hidden md:flex flex-col leading-tight text-[10px] tracking-wider3 opacity-80">
+          <span>TOTOTON / SEAFOOD IZAKAYA</span>
+          <span>蒲田・海鮮居酒屋</span>
+        </span>
+      </a>
+
+      <div class="hidden lg:flex items-center gap-9 text-[12px] tracking-wider3">
+        <a href="#concept" class="nav-link nav-a">コンセプト</a>
+        <a href="#menu" class="nav-link nav-a">お品書き</a>
+        <a href="#sake" class="nav-link nav-a">純米酒</a>
+        <a href="#night" class="nav-link nav-a">夜更けの呑み</a>
+        <a href="#gallery" class="nav-link nav-a">店内・料理</a>
+        <a href="#info" class="nav-link nav-a">店舗情報</a>
+        <a href="#access" class="nav-link nav-a">アクセス</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="#reserve" class="hidden md:inline-flex items-center gap-2 px-4 py-2 border border-current text-[11px] tracking-wider3 hover:bg-coral hover:text-shio hover:border-coral transition-colors">
+          <i class="fa-regular fa-calendar"></i> ご予約
+        </a>
+        <a href="tel:0300000000" class="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-coral text-shio text-[11px] tracking-wider3 hover:bg-ink transition-colors">
+          <i class="fa-solid fa-phone"></i> 03-0000-0000
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================== HERO ============================== -->
+  <header id="top" class="relative h-[100vh] min-h-[680px] overflow-hidden">
+    <!-- ヒーロー画像 -->
+    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=2400&q=80"
+         alt="刺身盛り合わせと日本酒" class="absolute inset-0 w-full h-full object-cover" loading="eager">
+    <div class="absolute inset-0 hero-veil"></div>
+    <div class="absolute inset-0 pattern-wave opacity-40 mix-blend-overlay"></div>
+
+    <!-- 右上 縦書きラベル -->
+    <div class="hidden md:block absolute top-32 right-12 text-shio/80 v-rl font-mincho text-sm tracking-wider3">
+      蒲田駅西口 徒歩二分 ／ 創業以来、市場と一献。
+    </div>
+
+    <!-- 左下 メインコピー -->
+    <div class="absolute left-6 md:left-16 right-6 bottom-12 md:bottom-20 max-w-3xl text-shio">
+      <div class="flex items-center gap-3 mb-6 reveal">
+        <span class="h-en text-sun2 text-base">Vol.02</span>
+        <span class="hair w-16"></span>
+        <span class="text-[11px] tracking-jumbo opacity-80">SHINSEN — SAKE — KAMATA</span>
+      </div>
+
+      <h1 class="font-mincho leading-[1.18] tracking-tight reveal reveal-delay-1">
+        <span class="block text-4xl md:text-6xl lg:text-7xl">蒲田の夜は、</span>
+        <span class="block text-4xl md:text-6xl lg:text-7xl mt-1">
+          <span class="text-coral">魚</span>と<span class="text-sun2">呑</span>む。
+        </span>
+      </h1>
+
+      <p class="mt-6 text-[13px] md:text-[15px] leading-loose font-jp font-light max-w-xl opacity-95 reveal reveal-delay-2">
+        豊洲の市場から朝に届く魚と、全国の蔵元から届く純米酒。<br class="hidden md:block">
+        一次会の前にも、二次会の〆にも。<br class="hidden md:block">
+        蒲田駅から二分の路地、夜更けまで開いた小さなカウンター。
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3 reveal reveal-delay-3">
+        <a href="#reserve" class="btn-ink">
+          <span><i class="fa-regular fa-calendar mr-2"></i>WEB予約（ebica）</span>
+        </a>
+        <a href="#menu" class="btn-line text-shio border-shio hover:bg-shio hover:text-ink">
+          <i class="fa-solid fa-utensils"></i> 今夜のお品書き
+        </a>
+        <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn-line text-shio border-shio hover:bg-shio hover:text-ink">
+          <i class="fa-brands fa-instagram"></i> @tototon_kamata
+        </a>
+      </div>
+    </div>
+
+    <!-- スクロールサイン -->
+    <div class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 items-center gap-3 text-shio/70 text-[10px] tracking-jumbo">
+      <span>SCROLL</span>
+      <span class="relative inline-block w-px h-12 bg-shio/30 overflow-hidden scroll-line"></span>
+    </div>
+
+    <!-- 印鑑風 -->
+    <div class="hidden md:block absolute top-32 right-32">
+      <div class="stamp text-center text-[10px] leading-tight">
+        蒲田<br>夜の<br>魚屋
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================== STATS BAND ============================== -->
+  <section class="relative bg-paper border-y border-line">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 py-10 grid grid-cols-2 md:grid-cols-4 gap-y-8">
+      <div class="text-center px-4 md:border-r md:border-line reveal">
+        <div class="stat-num">2<span class="text-2xl align-top ml-1">分</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 text-sub">KAMATA STATION</div>
+        <div class="mt-1 text-sm font-mincho">蒲田駅西口 徒歩</div>
+      </div>
+      <div class="text-center px-4 md:border-r md:border-line reveal reveal-delay-1">
+        <div class="stat-num">40<span class="text-2xl align-top ml-1">席</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 text-sub">COUNTER &amp; TABLE</div>
+        <div class="mt-1 text-sm font-mincho">カウンター12 ／ テーブル28</div>
+      </div>
+      <div class="text-center px-4 md:border-r md:border-line reveal reveal-delay-2">
+        <div class="stat-num">¥4,800<span class="text-2xl align-top ml-1">〜</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 text-sub">AVG. PER PERSON</div>
+        <div class="mt-1 text-sm font-mincho">客単価（コース不要・呑み放題別）</div>
+      </div>
+      <div class="text-center px-4 reveal reveal-delay-3">
+        <div class="stat-num">24<span class="text-2xl align-top ml-1">時</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 text-sub">LATE NIGHT WELCOME</div>
+        <div class="mt-1 text-sm font-mincho">深夜25時まで営業（金土）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CONCEPT ============================== -->
+  <section id="concept" class="relative py-24 md:py-36 overflow-hidden">
+    <div class="absolute -top-10 right-0 kanji-bg text-[280px] md:text-[420px]">魚呑</div>
+    <div class="absolute inset-0 glow-coral pointer-events-none"></div>
+
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 relative">
+      <div class="grid md:grid-cols-12 gap-12 md:gap-16 items-start">
+        <!-- 左：見出し -->
+        <div class="md:col-span-5 reveal">
+          <div class="flex items-center gap-4 mb-6">
+            <span class="sec-num">— 01 / Concept</span>
+          </div>
+          <h2 class="font-mincho text-3xl md:text-5xl leading-[1.3] mb-8">
+            堅苦しくない。<br>
+            でも、いい<span class="text-coral">魚</span>と<br>
+            ちゃんとした<span class="text-sun">酒</span>を。
+          </h2>
+          <p class="text-[14px] leading-loose font-light text-navy/90 mb-6">
+            「割烹は気詰まり、チェーンは物足りない」――<br>
+            その隙間に、魚魚呑（とととん）は店を開けています。
+          </p>
+          <p class="text-[14px] leading-loose font-light text-navy/90 mb-6">
+            朝の豊洲で締めた魚を、その日のうちに。<br>
+            蔵元から直接届く純米酒を、好きなだけ少しずつ。<br>
+            ひとり呑みも、五人の二次会も、おなじカウンターで。
+          </p>
+          <p class="text-[14px] leading-loose font-light text-navy/90">
+            お洒落しないで来てください。<br>
+            それでも、ちゃんといい夜になります。
+          </p>
+
+          <div class="mt-10 flex items-center gap-5">
+            <span class="seal text-[11px]">魚魚呑</span>
+            <span class="text-[12px] tracking-wider3 text-sub">店主 ／ 横田 龍生</span>
+          </div>
+        </div>
+
+        <!-- 右：写真コラージュ -->
+        <div class="md:col-span-7 grid grid-cols-6 gap-3 md:gap-4">
+          <div class="col-span-4 row-span-2 reveal">
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&q=80"
+                 alt="店主が魚を捌く" class="w-full h-full object-cover aspect-[4/5] shadow-paper">
+          </div>
+          <div class="col-span-2 reveal reveal-delay-1">
+            <img src="https://images.unsplash.com/photo-1606503153255-59d8b8b4e1ad?w=600&q=80"
+                 alt="日本酒の徳利" class="w-full h-full object-cover aspect-square shadow-paper">
+          </div>
+          <div class="col-span-2 reveal reveal-delay-2">
+            <img src="https://images.unsplash.com/photo-1611141647859-ad6c1336afa9?w=600&q=80"
+                 alt="刺身一切れ" class="w-full h-full object-cover aspect-square shadow-paper">
+          </div>
+          <div class="col-span-3 reveal reveal-delay-1">
+            <img src="https://images.unsplash.com/photo-1535473895227-bdecb20fb157?w=900&q=80"
+                 alt="カウンターの夜" class="w-full h-full object-cover aspect-[4/3] shadow-paper">
+          </div>
+          <div class="col-span-3 reveal reveal-delay-2">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80"
+                 alt="盃" class="w-full h-full object-cover aspect-[4/3] shadow-paper">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== DIVIDER ============================== -->
+  <div class="relative py-8 bg-cream/40">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 flex items-center justify-center">
+      <div class="fish-divider text-[11px] tracking-jumbo">
+        <span class="line"></span>
+        <i class="fa-solid fa-fish"></i>
+        <span>TODAY'S CATCH ／ 本日の魚</span>
+        <i class="fa-solid fa-fish fa-flip-horizontal"></i>
+        <span class="line"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== MENU ============================== -->
+  <section id="menu" class="relative py-20 md:py-28 bg-shio">
+    <div class="absolute inset-0 pattern-asanoha opacity-60"></div>
+
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 relative">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+        <div class="reveal">
+          <div class="sec-num mb-3">— 02 / Today's Menu</div>
+          <h2 class="font-mincho text-3xl md:text-5xl leading-tight">
+            今夜のお品書き
+          </h2>
+          <p class="mt-4 text-[13px] text-sub leading-relaxed max-w-md">
+            魚は仕入れ次第、毎日変わります。<br>下記は定番のお品。価格は税込です。
+          </p>
+        </div>
+        <div class="reveal reveal-delay-1 flex items-center gap-4 text-[11px] tracking-wider3 text-sub">
+          <span><i class="fa-solid fa-leaf text-aqua mr-2"></i>季節限定</span>
+          <span><i class="fa-solid fa-fire text-coral mr-2"></i>店主おすすめ</span>
+        </div>
+      </div>
+
+      <!-- 大看板（左：写真大、右：説明＋3品） -->
+      <div class="grid md:grid-cols-12 gap-6 md:gap-10 mb-20">
+        <div class="md:col-span-7 relative dish-card overflow-hidden reveal">
+          <img src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=1600&q=80"
+               alt="本日の刺身5種盛り" class="dish-img w-full aspect-[4/3] object-cover">
+          <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent text-shio">
+            <div class="flex items-center gap-3 text-[10px] tracking-jumbo opacity-90">
+              <span class="seal">看板</span>
+              <span>SIGNATURE</span>
+            </div>
+            <h3 class="font-mincho text-2xl md:text-4xl mt-3 leading-tight">
+              本日の刺身 五種盛り
+            </h3>
+            <div class="mt-3 flex items-end justify-between">
+              <p class="text-[13px] opacity-90 max-w-md leading-relaxed">
+                豊洲で選んだ旬の魚を、店主が一切れずつ。<br>
+                その日いちばんを、その日のうちに。
+              </p>
+              <span class="font-display italic text-3xl md:text-4xl text-sun2">¥1,980</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-5 flex flex-col gap-6">
+          <div class="dish-card overflow-hidden relative reveal reveal-delay-1">
+            <img src="https://images.unsplash.com/photo-1564834744159-ff0ea41ba4b9?w=900&q=80"
+                 alt="のどぐろ炙り" class="dish-img w-full aspect-[16/10] object-cover">
+            <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-ink/85 to-transparent text-shio">
+              <div class="flex items-end justify-between">
+                <div>
+                  <div class="text-[10px] tracking-jumbo opacity-80"><i class="fa-solid fa-fire text-coral mr-1"></i> オススメ</div>
+                  <h4 class="font-mincho text-xl mt-1">のどぐろの藁焼き</h4>
+                </div>
+                <span class="font-display italic text-2xl text-sun2">¥1,680</span>
+              </div>
+            </div>
+          </div>
+          <div class="dish-card overflow-hidden relative reveal reveal-delay-2">
+            <img src="https://images.unsplash.com/photo-1607301405390-d831c242f59b?w=900&q=80"
+                 alt="ウニのせクラッカー" class="dish-img w-full aspect-[16/10] object-cover">
+            <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-ink/85 to-transparent text-shio">
+              <div class="flex items-end justify-between">
+                <div>
+                  <div class="text-[10px] tracking-jumbo opacity-80"><i class="fa-solid fa-leaf text-aqua mr-1"></i> 季節</div>
+                  <h4 class="font-mincho text-xl mt-1">うにと帆立のひと口</h4>
+                </div>
+                <span class="font-display italic text-2xl text-sun2">¥980</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 価格表 -->
+      <div class="grid md:grid-cols-3 gap-10 md:gap-14">
+        <!-- 刺身 -->
+        <div class="reveal">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-mincho text-2xl">刺身</span>
+            <span class="hair-soft flex-1"></span>
+            <span class="h-en text-coral">Sashimi</span>
+          </div>
+          <ul class="space-y-3 text-[14px] font-light">
+            <li class="price-row"><span>本日の刺身 三種盛り</span><span class="dots"></span><span class="font-display italic">¥1,280</span></li>
+            <li class="price-row"><span>本日の刺身 五種盛り <span class="text-[10px] text-coral ml-1">看板</span></span><span class="dots"></span><span class="font-display italic">¥1,980</span></li>
+            <li class="price-row"><span>大トロ・中トロ食べ比べ</span><span class="dots"></span><span class="font-display italic">¥2,480</span></li>
+            <li class="price-row"><span>カツオ藁焼き</span><span class="dots"></span><span class="font-display italic">¥1,380</span></li>
+            <li class="price-row"><span>白身魚の昆布締め</span><span class="dots"></span><span class="font-display italic">¥980</span></li>
+            <li class="price-row"><span>炙り〆鯖</span><span class="dots"></span><span class="font-display italic">¥780</span></li>
+            <li class="price-row"><span>馬刺し（赤身）</span><span class="dots"></span><span class="font-display italic">¥1,080</span></li>
+          </ul>
+        </div>
+
+        <!-- 一品 -->
+        <div class="reveal reveal-delay-1">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-mincho text-2xl">逸品</span>
+            <span class="hair-soft flex-1"></span>
+            <span class="h-en text-coral">Small plate</span>
+          </div>
+          <ul class="space-y-3 text-[14px] font-light">
+            <li class="price-row"><span>のどぐろの藁焼き <span class="text-[10px] text-coral ml-1">名物</span></span><span class="dots"></span><span class="font-display italic">¥1,680</span></li>
+            <li class="price-row"><span>うにと帆立のひと口</span><span class="dots"></span><span class="font-display italic">¥980</span></li>
+            <li class="price-row"><span>金目鯛の煮付け</span><span class="dots"></span><span class="font-display italic">¥1,880</span></li>
+            <li class="price-row"><span>蛤の酒蒸し</span><span class="dots"></span><span class="font-display italic">¥1,180</span></li>
+            <li class="price-row"><span>白子のポン酢</span><span class="dots"></span><span class="font-display italic">¥980</span></li>
+            <li class="price-row"><span>牡蠣の燻製</span><span class="dots"></span><span class="font-display italic">¥780</span></li>
+            <li class="price-row"><span>魚屋のポテトサラダ</span><span class="dots"></span><span class="font-display italic">¥580</span></li>
+          </ul>
+        </div>
+
+        <!-- 〆 -->
+        <div class="reveal reveal-delay-2">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-mincho text-2xl">〆</span>
+            <span class="hair-soft flex-1"></span>
+            <span class="h-en text-coral">Shime</span>
+          </div>
+          <ul class="space-y-3 text-[14px] font-light">
+            <li class="price-row"><span>海鮮ばらちらし</span><span class="dots"></span><span class="font-display italic">¥1,580</span></li>
+            <li class="price-row"><span>づけマグロ丼</span><span class="dots"></span><span class="font-display italic">¥1,280</span></li>
+            <li class="price-row"><span>あら汁</span><span class="dots"></span><span class="font-display italic">¥480</span></li>
+            <li class="price-row"><span>鯛茶漬け <span class="text-[10px] text-coral ml-1">深夜限定</span></span><span class="dots"></span><span class="font-display italic">¥980</span></li>
+            <li class="price-row"><span>釜揚げしらすご飯</span><span class="dots"></span><span class="font-display italic">¥780</span></li>
+            <li class="price-row"><span>白米・赤だし</span><span class="dots"></span><span class="font-display italic">¥380</span></li>
+            <li class="price-row text-coral"><span class="font-mincho">＊20時以降は鯛茶漬けあり</span><span class="dots"></span><span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-16 flex items-center gap-4 reveal">
+        <span class="hair flex-1"></span>
+        <span class="text-[11px] tracking-jumbo text-sub">＊ 仕入れにより当日メニューは変動します</span>
+        <span class="hair flex-1"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== SAKE ============================== -->
+  <section id="sake" class="relative py-20 md:py-32 bg-ink text-paper overflow-hidden">
+    <div class="absolute inset-0 pattern-wave opacity-25"></div>
+    <div class="absolute top-10 left-6 kanji-bg text-[260px] md:text-[400px] !text-paper/[0.04]">純米</div>
+
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 relative">
+      <div class="grid md:grid-cols-12 gap-12 items-center">
+        <!-- 左：写真 -->
+        <div class="md:col-span-5 relative reveal">
+          <img src="https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=900&q=80"
+               alt="日本酒の徳利と猪口" class="w-full aspect-[4/5] object-cover">
+          <div class="absolute -top-5 -right-5 stamp text-[10px] leading-tight">
+            純米<br>派<br>50種
+          </div>
+        </div>
+
+        <!-- 右：説明 -->
+        <div class="md:col-span-7 reveal reveal-delay-1">
+          <div class="sec-num !text-sun2 mb-3">— 03 / Junmai Sake</div>
+          <h2 class="font-mincho text-3xl md:text-5xl leading-tight">
+            蔵元から、直接。<br>
+            全国の<span class="text-sun2">純米酒</span>を、五十種。
+          </h2>
+          <p class="mt-6 text-[14px] leading-loose font-light opacity-90 max-w-2xl">
+            醸造アルコールを足さない「純米酒」だけを選んでいます。<br>
+            ハーフ猪口で、すこしずつ。気に入った一本を、一合徳利で。<br>
+            銘柄はその日蔵元から届いた順。下記は本日の入荷です。
+          </p>
+
+          <div class="mt-10 grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-4 text-[13px]">
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">而今 <span class="text-paper/60 text-[11px]">三重</span></span><span class="font-display italic text-sun2">¥1,200</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">新政 No.6 <span class="text-paper/60 text-[11px]">秋田</span></span><span class="font-display italic text-sun2">¥1,400</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">田酒 <span class="text-paper/60 text-[11px]">青森</span></span><span class="font-display italic text-sun2">¥980</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">あべ <span class="text-paper/60 text-[11px]">新潟</span></span><span class="font-display italic text-sun2">¥1,080</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">花陽浴 <span class="text-paper/60 text-[11px]">埼玉</span></span><span class="font-display italic text-sun2">¥1,380</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">而今 純米吟醸 <span class="text-paper/60 text-[11px]">三重</span></span><span class="font-display italic text-sun2">¥1,580</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">飛露喜 <span class="text-paper/60 text-[11px]">福島</span></span><span class="font-display italic text-sun2">¥1,280</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">十四代 別撰 <span class="text-paper/60 text-[11px]">山形</span></span><span class="font-display italic text-sun2">時価</span></div>
+            <div class="flex justify-between border-b border-paper/15 pb-2"><span class="font-mincho">獺祭 二割三分 <span class="text-paper/60 text-[11px]">山口</span></span><span class="font-display italic text-sun2">¥1,680</span></div>
+          </div>
+
+          <div class="mt-10 flex flex-wrap gap-3 text-[12px] tracking-wider3">
+            <span class="px-3 py-1 border border-paper/40">3種飲み比べ ¥1,580</span>
+            <span class="px-3 py-1 border border-paper/40">5種飲み比べ ¥2,480</span>
+            <span class="px-3 py-1 border border-coral text-coral">焼酎・梅酒・地ビールあり</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== NIGHT SECTION（20時以降） ============================== -->
+  <section id="night" class="relative py-20 md:py-32 overflow-hidden bg-paper">
+    <!-- 装飾：右下に大きな夜の月（円） -->
+    <div class="absolute -bottom-32 -right-32 w-[560px] h-[560px] rounded-full opacity-60"
+         style="background: radial-gradient(circle at 35% 35%, #F2E7D2 0%, #E0B273 55%, #C9974C 100%);"></div>
+    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-ink/[0.04] to-transparent"></div>
+
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12 relative">
+      <div class="grid md:grid-cols-12 gap-12 items-start">
+        <!-- 左：縦組み大見出し -->
+        <div class="md:col-span-5 reveal">
+          <div class="sec-num mb-3">— 04 / After 8pm</div>
+          <h2 class="font-mincho text-4xl md:text-6xl leading-[1.2]">
+            <span class="block">仕事終わりの</span>
+            <span class="block text-coral">電車一本前に。</span>
+            <span class="block mt-2 text-2xl md:text-3xl text-sub">― 二〇時以降の、サク呑み ―</span>
+          </h2>
+          <div class="hair my-8 max-w-xs"></div>
+          <p class="text-[14px] leading-loose font-light text-navy/85 max-w-md">
+            飲み会のあとの「もう一軒だけ」。<br>
+            一人で立ち寄って、お刺身二切れと一合だけ。<br>
+            魚魚呑は、そういう夜に開いています。
+          </p>
+        </div>
+
+        <!-- 右：3つの夜の提案 -->
+        <div class="md:col-span-7 space-y-6">
+          <div class="grid md:grid-cols-3 gap-4 reveal reveal-delay-1">
+            <div class="bg-shio p-6 border border-line shadow-paper">
+              <div class="font-display italic text-3xl text-coral">20<span class="text-base ml-1">:00</span></div>
+              <h3 class="mt-3 font-mincho text-lg">サク呑みコース</h3>
+              <p class="mt-3 text-[12px] leading-relaxed text-sub">刺身二種 ＋ 純米酒一合<br>＋ 〆の鯛茶漬け</p>
+              <div class="mt-5 flex items-end justify-between">
+                <span class="text-[10px] tracking-jumbo text-sub">45分制</span>
+                <span class="font-display italic text-2xl">¥2,480</span>
+              </div>
+            </div>
+            <div class="bg-ink text-paper p-6 shadow-paper relative">
+              <span class="absolute -top-3 left-6 seal text-[10px]">人気</span>
+              <div class="font-display italic text-3xl text-sun2">21<span class="text-base ml-1">:00</span></div>
+              <h3 class="mt-3 font-mincho text-lg">深夜のひと皿</h3>
+              <p class="mt-3 text-[12px] leading-relaxed opacity-85">店主が選ぶ「今夜の一皿」と<br>純米酒の飲み比べ三種</p>
+              <div class="mt-5 flex items-end justify-between">
+                <span class="text-[10px] tracking-jumbo opacity-70">時価</span>
+                <span class="font-display italic text-2xl text-sun2">¥3,200</span>
+              </div>
+            </div>
+            <div class="bg-shio p-6 border border-line shadow-paper">
+              <div class="font-display italic text-3xl text-coral">23<span class="text-base ml-1">:00</span></div>
+              <h3 class="mt-3 font-mincho text-lg">〆の鯛茶</h3>
+              <p class="mt-3 text-[12px] leading-relaxed text-sub">店主仕込みの鯛茶漬け。<br>家に帰る前の、〆の一杯。</p>
+              <div class="mt-5 flex items-end justify-between">
+                <span class="text-[10px] tracking-jumbo text-sub">単品OK</span>
+                <span class="font-display italic text-2xl">¥980</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- リアルタイム空席 -->
+          <div class="reveal reveal-delay-2 bg-coral text-shio p-7 md:p-9 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 text-coral kanji-bg text-[220px] !text-shio/10">空</div>
+            <div class="relative">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="inline-block w-2 h-2 rounded-full bg-shio animate-pulse"></span>
+                <span class="text-[11px] tracking-jumbo">REALTIME / Instagram Stories</span>
+              </div>
+              <h3 class="font-mincho text-2xl md:text-3xl leading-snug">
+                今夜の空席は、Instagramで。
+              </h3>
+              <p class="mt-3 text-[13px] leading-relaxed max-w-xl opacity-95">
+                平日 19:30 と 20:30 に、その日の空席を Instagramストーリーズで速報しています。<br>
+                「今からあと一人」「カウンター2席だけ」――そんなご案内が、毎晩流れます。
+              </p>
+              <a href="https://instagram.com/" target="_blank" rel="noopener" class="mt-5 inline-flex items-center gap-2 text-[12px] tracking-wider3 border-b border-shio pb-1 hover:opacity-80">
+                <i class="fa-brands fa-instagram"></i> @tototon_kamata を見る
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== GALLERY ============================== -->
+  <section id="gallery" class="relative py-20 md:py-28 bg-cream/40">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 reveal">
+        <div>
+          <div class="sec-num mb-3">— 05 / Gallery</div>
+          <h2 class="font-mincho text-3xl md:text-5xl leading-tight">
+            この店の、夜の景色。
+          </h2>
+        </div>
+        <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn-line">
+          <i class="fa-brands fa-instagram"></i> Instagramでもっと見る
+        </a>
+      </div>
+
+      <!-- マゾン風ギャラリー -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+        <div class="aspect-[3/4] overflow-hidden reveal"><img src="https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+        <div class="aspect-square overflow-hidden reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1535473895227-bdecb20fb157?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+        <div class="aspect-square overflow-hidden reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+        <div class="aspect-[3/4] overflow-hidden reveal reveal-delay-3"><img src="https://images.unsplash.com/photo-1611141647859-ad6c1336afa9?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+        <div class="aspect-square overflow-hidden reveal"><img src="https://images.unsplash.com/photo-1606503153255-59d8b8b4e1ad?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+        <div class="aspect-[3/4] overflow-hidden reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+        <div class="aspect-[3/4] overflow-hidden reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+        <div class="aspect-square overflow-hidden reveal reveal-delay-3"><img src="https://images.unsplash.com/photo-1564834744159-ff0ea41ba4b9?w=600&q=80" class="dish-img w-full h-full object-cover" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== STORE INFO ============================== -->
+  <section id="info" class="relative py-20 md:py-28 bg-paper">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12">
+      <div class="grid md:grid-cols-12 gap-12">
+        <!-- 左：情報テーブル -->
+        <div class="md:col-span-7 reveal">
+          <div class="sec-num mb-3">— 06 / Store Information</div>
+          <h2 class="font-mincho text-3xl md:text-5xl leading-tight mb-10">店舗情報</h2>
+
+          <dl class="divide-y divide-line">
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">店名</dt>
+              <dd class="col-span-8 md:col-span-9">魚魚呑（とととん）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">業態</dt>
+              <dd class="col-span-8 md:col-span-9">海鮮居酒屋 ／ 純米酒</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">住所</dt>
+              <dd class="col-span-8 md:col-span-9">
+                〒144-0052<br>
+                東京都大田区蒲田5-XX-XX 蒲田ビル 2F<br>
+                <a href="https://maps.google.com/?q=蒲田駅" target="_blank" class="inline-flex items-center gap-2 mt-2 text-coral text-[12px] border-b border-coral hover:opacity-75">
+                  <i class="fa-solid fa-map-location-dot"></i> Google Mapで開く
+                </a>
+              </dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">電話</dt>
+              <dd class="col-span-8 md:col-span-9"><a href="tel:0300000000" class="hover:text-coral">03-0000-0000</a></dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">営業時間</dt>
+              <dd class="col-span-8 md:col-span-9">
+                <div class="space-y-1.5">
+                  <div class="flex justify-between border-b border-line pb-1.5 max-w-md">
+                    <span>月〜木</span><span class="font-display italic">17:00 — 24:00 <span class="text-[11px] text-sub">(L.O. 23:00)</span></span>
+                  </div>
+                  <div class="flex justify-between border-b border-line pb-1.5 max-w-md">
+                    <span>金・土</span><span class="font-display italic">17:00 — 25:00 <span class="text-[11px] text-sub">(L.O. 24:00)</span></span>
+                  </div>
+                  <div class="flex justify-between max-w-md">
+                    <span>日・祝</span><span class="font-display italic">16:00 — 23:00 <span class="text-[11px] text-sub">(L.O. 22:00)</span></span>
+                  </div>
+                </div>
+              </dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">定休日</dt>
+              <dd class="col-span-8 md:col-span-9">不定休（Instagramにて告知）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">席数</dt>
+              <dd class="col-span-8 md:col-span-9">40席（カウンター12席 ／ テーブル28席）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">支払い</dt>
+              <dd class="col-span-8 md:col-span-9">現金 ／ クレジット（VISA・Master・JCB・Amex） ／ PayPay ／ 交通系IC</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">予算</dt>
+              <dd class="col-span-8 md:col-span-9">¥4,000 〜 ¥5,500（呑み放題別 ／ コース不要）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-mincho text-sub text-[12px] tracking-wider3 pt-1">SNS</dt>
+              <dd class="col-span-8 md:col-span-9 flex flex-wrap gap-3 text-[12px]">
+                <a href="#" class="px-3 py-1.5 border border-ink hover:bg-ink hover:text-shio transition-colors"><i class="fa-brands fa-instagram mr-2"></i>@tototon_kamata</a>
+                <a href="#" class="px-3 py-1.5 border border-ink hover:bg-ink hover:text-shio transition-colors"><i class="fa-brands fa-tiktok mr-2"></i>@tototon_kamata</a>
+                <a href="#" class="px-3 py-1.5 border border-ink hover:bg-ink hover:text-shio transition-colors"><i class="fa-brands fa-line mr-2"></i>LINE公式</a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- 右：写真+地図カード -->
+        <div class="md:col-span-5 space-y-6">
+          <div class="reveal reveal-delay-1">
+            <img src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=900&q=80"
+                 alt="店舗外観" class="w-full aspect-[4/5] object-cover shadow-paper">
+          </div>
+          <div class="reveal reveal-delay-2 bg-ink text-paper p-7 shadow-paper">
+            <h3 class="font-mincho text-xl mb-3">＊ご利用ガイド</h3>
+            <ul class="space-y-2 text-[13px] leading-relaxed opacity-90 font-light">
+              <li>・お一人様、二次会、〆の一杯歓迎です。</li>
+              <li>・カウンターは「ふらり来店」優先。テーブルはご予約推奨。</li>
+              <li>・20時以降は「サク呑みコース」を中心にご用意。</li>
+              <li>・お子様連れは18時までのご来店をお願いしています。</li>
+              <li>・食物アレルギーは事前にお知らせください。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== ACCESS ============================== -->
+  <section id="access" class="relative py-20 md:py-28 bg-cream/50">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-14 items-start">
+        <div class="md:col-span-5 reveal">
+          <div class="sec-num mb-3">— 07 / Access</div>
+          <h2 class="font-mincho text-3xl md:text-5xl leading-tight mb-8">蒲田駅から、二分。</h2>
+
+          <ul class="space-y-5 text-[14px] leading-relaxed">
+            <li class="flex gap-4">
+              <i class="fa-solid fa-train text-coral text-xl mt-0.5"></i>
+              <div>
+                <div class="font-mincho text-base">JR京浜東北線・東急池上線・多摩川線</div>
+                <div class="text-sub text-[12px] mt-1">蒲田駅 西口から徒歩2分</div>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <i class="fa-solid fa-route text-coral text-xl mt-0.5"></i>
+              <div>
+                <div class="font-mincho text-base">京急線「京急蒲田駅」</div>
+                <div class="text-sub text-[12px] mt-1">東口から徒歩9分</div>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <i class="fa-solid fa-square-parking text-coral text-xl mt-0.5"></i>
+              <div>
+                <div class="font-mincho text-base">専用駐車場</div>
+                <div class="text-sub text-[12px] mt-1">なし（近隣にコインパーキング多数）</div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="mt-10 p-6 bg-shio border border-line">
+            <div class="text-[11px] tracking-jumbo text-coral mb-2">SHORTCUT</div>
+            <p class="font-mincho text-[15px] leading-relaxed">
+              西口を出て、駅前ロータリーを右へ。<br>
+              ファミリーマートのある通りを進み、<br>
+              一つ目の路地を左、すぐの<span class="text-coral">朱い</span>暖簾です。
+            </p>
+          </div>
+        </div>
+
+        <!-- 簡易マップ風カード -->
+        <div class="md:col-span-7 reveal reveal-delay-1">
+          <div class="aspect-[4/3] relative bg-paper border border-line overflow-hidden">
+            <!-- マップ用の代替（実装時はGoogle Maps Embed） -->
+            <div class="absolute inset-0 pattern-wave opacity-40"></div>
+            <svg viewBox="0 0 400 300" class="absolute inset-0 w-full h-full">
+              <!-- 道 -->
+              <path d="M0,180 L400,180" stroke="#D9CCB2" stroke-width="14" fill="none"/>
+              <path d="M180,0 L180,300" stroke="#D9CCB2" stroke-width="10" fill="none"/>
+              <path d="M260,180 L260,40" stroke="#D9CCB2" stroke-width="6" fill="none"/>
+              <!-- 駅 -->
+              <rect x="155" y="60" width="50" height="36" fill="#0F2433"/>
+              <text x="180" y="83" text-anchor="middle" fill="#F8F1E4" font-family="Yuji Syuku" font-size="13">蒲田</text>
+              <text x="180" y="115" text-anchor="middle" fill="#0F2433" font-family="Zen Kaku Gothic New" font-size="9">JR・東急</text>
+              <!-- 店 -->
+              <g transform="translate(295,130)">
+                <circle r="22" fill="#D9533F"/>
+                <text x="0" y="5" text-anchor="middle" fill="#F8F1E4" font-family="Yuji Syuku" font-size="14">魚</text>
+              </g>
+              <text x="295" y="172" text-anchor="middle" fill="#0F2433" font-family="Zen Kaku Gothic New" font-size="10">魚魚呑（とととん）</text>
+              <!-- 矢印 -->
+              <path d="M205,78 Q250,78 280,120" stroke="#D9533F" stroke-width="1.6" fill="none" stroke-dasharray="4 4"/>
+              <text x="240" y="74" fill="#D9533F" font-family="Fraunces" font-style="italic" font-size="11">2 min walk</text>
+            </svg>
+            <a href="https://maps.google.com/?q=蒲田駅" target="_blank"
+               class="absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 bg-ink text-shio text-[11px] tracking-wider3 hover:bg-coral transition-colors">
+              <i class="fa-solid fa-up-right-from-square"></i> Google Mapで開く
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== RESERVE CTA ============================== -->
+  <section id="reserve" class="relative py-24 md:py-36 bg-ink text-paper overflow-hidden grain">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=80"
+         alt="" class="absolute inset-0 w-full h-full object-cover opacity-30">
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/60 to-ink/90"></div>
+
+    <div class="max-w-[1100px] mx-auto px-6 md:px-12 relative text-center">
+      <div class="sec-num !text-sun2 mb-4 reveal">— Reservation</div>
+      <h2 class="font-mincho text-4xl md:text-6xl leading-tight reveal reveal-delay-1">
+        今夜の卓を、<br>
+        ひとつだけ、押さえる。
+      </h2>
+      <p class="mt-6 text-[14px] leading-loose font-light opacity-90 max-w-xl mx-auto reveal reveal-delay-2">
+        当日のご予約も、深夜のご来店も。<br>
+        24時間 ebica からどうぞ。
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3 reveal reveal-delay-3">
+        <a href="#" class="btn-ink bg-coral border-coral hover:bg-shio">
+          <span><i class="fa-regular fa-calendar mr-2"></i>WEB予約（ebica）</span>
+        </a>
+        <a href="tel:0300000000" class="btn-line border-paper text-paper hover:bg-paper hover:text-ink">
+          <i class="fa-solid fa-phone"></i> 03-0000-0000
+        </a>
+        <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn-line border-paper text-paper hover:bg-paper hover:text-ink">
+          <i class="fa-brands fa-instagram"></i> DMでの予約も可
+        </a>
+      </div>
+
+      <div class="mt-12 text-[11px] tracking-jumbo opacity-70">
+        <i class="fa-solid fa-clock mr-2"></i> 当日キャンセルは前日21時までにご連絡ください
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="relative bg-paper py-16 border-t border-line">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-12">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-5">
+          <div class="flex items-baseline gap-3">
+            <span class="font-mincho text-4xl text-coral">魚魚呑</span>
+            <span class="text-[11px] tracking-jumbo text-sub">TOTOTON</span>
+          </div>
+          <p class="mt-4 text-[12px] leading-relaxed text-sub max-w-xs">
+            蒲田駅西口 徒歩2分。<br>
+            豊洲の鮮魚と、全国の純米酒。<br>
+            ふらりと一人でも、賑やかな二次会でも。
+          </p>
+
+          <div class="mt-6 flex gap-2">
+            <a href="#" class="w-10 h-10 inline-flex items-center justify-center border border-ink hover:bg-ink hover:text-shio transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="w-10 h-10 inline-flex items-center justify-center border border-ink hover:bg-ink hover:text-shio transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" class="w-10 h-10 inline-flex items-center justify-center border border-ink hover:bg-ink hover:text-shio transition-colors"><i class="fa-brands fa-line"></i></a>
+            <a href="#" class="w-10 h-10 inline-flex items-center justify-center border border-ink hover:bg-ink hover:text-shio transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="md:col-span-3">
+          <div class="text-[11px] tracking-jumbo text-sub mb-4">MENU</div>
+          <ul class="space-y-2 text-[13px]">
+            <li><a href="#concept" class="hover:text-coral">コンセプト</a></li>
+            <li><a href="#menu" class="hover:text-coral">お品書き</a></li>
+            <li><a href="#sake" class="hover:text-coral">純米酒</a></li>
+            <li><a href="#night" class="hover:text-coral">夜更けの呑み</a></li>
+            <li><a href="#gallery" class="hover:text-coral">店内・料理</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-4">
+          <div class="text-[11px] tracking-jumbo text-sub mb-4">SHOP</div>
+          <ul class="space-y-2 text-[13px]">
+            <li>東京都大田区蒲田5-XX-XX 蒲田ビル 2F</li>
+            <li>TEL: 03-0000-0000</li>
+            <li>営業: 17:00 — 24:00 ／ 金土 〜25:00</li>
+            <li>定休: 不定休</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="hair my-10"></div>
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] tracking-wider3 text-sub">
+        <div>© 2026 魚魚呑 TOTOTON. All rights reserved.</div>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-coral">プライバシーポリシー</a>
+          <span class="opacity-50">／</span>
+          <a href="#" class="hover:text-coral">特定商取引法</a>
+          <span class="opacity-50">／</span>
+          <span>Designed for kamata night.</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================== MOBILE FIXED CTA ============================== -->
+  <div class="mobile-cta fixed bottom-0 left-0 right-0 z-50 bg-ink/95 backdrop-blur border-t border-coral/40 px-4 py-3 flex items-center gap-2">
+    <a href="tel:0300000000" class="flex-1 inline-flex items-center justify-center gap-2 py-3 border border-shio/60 text-shio text-[12px] tracking-wider3">
+      <i class="fa-solid fa-phone"></i> 電話で予約
+    </a>
+    <a href="#reserve" class="flex-1 inline-flex items-center justify-center gap-2 py-3 bg-coral text-shio text-[12px] tracking-wider3">
+      <i class="fa-regular fa-calendar"></i> WEB予約
+    </a>
+  </div>
+
+  <!-- ============================== SCRIPT ============================== -->
+  <script>
+    // スクロールでナビ変化
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 60) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // リビールアニメーション
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
